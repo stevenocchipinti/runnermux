@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SESSION_NAME="runnermux"
+
+tmux -2 attach -t $SESSION_NAME
+if [ $? != 0 ]; then
+  tmux -2 new -d -s $SESSION_NAME
+  tmux rename-window -t $SESSION_NAME:0 "runner"
+  tmux new-window -t $SESSION_NAME:0 -a -n "spin" "bundle exec spin serve"
+  tmux attach -t $SESSION_NAME
+fi
