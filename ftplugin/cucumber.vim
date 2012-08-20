@@ -2,5 +2,5 @@
 " Maintainer: Steve Occhipinti
 
 
-map <leader>t :w:call Send_to_Tmux("bundle exec cucumber -r features ".expand('%'))
-map <leader>T :w:call Send_to_Tmux("bundle exec cucumber -r features ".expand('%').":".line('.'))
+map <leader>t :w:call Runnermux("bundle exec cucumber -r features ".expand('%'))
+map <leader>T :w:call Runnermux("bundle exec cucumber -r features ".expand('%').":".line('.'))
