@@ -3,7 +3,7 @@
 SESSION_NAME="runnermux"
 [ $# -eq 1 ] && SESSION_NAME="$1"
 
-tmux -2 attach -t $SESSION_NAME
+tmux -2 attach -t $SESSION_NAME 2> /dev/null
 if [ $? != 0 ]; then
   tmux -2 new -d -s $SESSION_NAME
   tmux rename-window -t $SESSION_NAME:0 "runner"
