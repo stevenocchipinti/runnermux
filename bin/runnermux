@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SESSION_NAME="runnermux"
+[ $# -eq 1 ] && SESSION_NAME="$1"
 
 tmux -2 attach -t $SESSION_NAME
 if [ $? != 0 ]; then
