@@ -13,3 +13,6 @@ function! Runnermux(text, ...)
   redraw
   echo
 endfunction
+
+command! -nargs=1 RunnermuxSend call Runnermux('<args>')
+command! RunnermuxSetup call Tmux_Vars()
