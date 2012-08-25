@@ -2,11 +2,13 @@ if exists('runnermux_use_spin')
   if g:runnermux_use_spin == 'always'
     map <leader>t :w:call Runnermux("bundle exec spin push ".expand('%'), "spin")
     map <leader>T :w:call Runnermux("bundle exec spin push ".expand('%').":".line('.'), "spin")
-  elseif g:runnermux_use_spin == 'notviews'
-    " dont use spin for view tests? || only use spin if it is available || both?
-    "au! BufRead,BufNewFile */spec/views/*.rb set colorcolumn=60,65,70,75
   elseif g:runnermux_use_spin == 'auto'
-    " If spin is available && not for views
+    " Dont use spin for view specs
+    map <leader>t :w:call RunnermuxRubyAutoFile()
+    map <leader>T :w:call RunnermuxRubyAutoLine()
+    " Dont set the flag if the current buffer is a view spec
+    au! BufEnter * let g:_runnermux_use_spin = 1
+    au! BufEnter */spec/views/*.rb unlet! g:_runnermux_use_spin
   endif
 else
   map <leader>t :w:call Runnermux("bundle exec rspec ".expand('%'))
@@ -14,15 +16,18 @@ else
 endif
 
 
-" A potential way to detect if spin is available
-"exe "!which spin"
-"if v:shell_error
-"  exe "!which rpsec"
-"  if v:shell_error
-"    echo "Could not find 'spin' or 'rspec'"
-"  else
-"    let rspec_command = "bundle exec rspec "
-"  endif
-"else
-"  let rspec_command = "bundle exec spin push "
-"endif
+function! RunnermuxRubyAutoLine()
+  if exists('g:_runnermux_use_spin')
+    call Runnermux("bundle exec spin push ".expand('%').":".line('.'), "spin")
+  else
+    call Runnermux("bundle exec rspec ".expand('%').":".line('.'))
+  endif
+endfunction
+
+function! RunnermuxRubyAutoFile()
+  if exists('g:_runnermux_use_spin')
+    call Runnermux("bundle exec spin push ".expand('%'), "spin")
+  else
+    call Runnermux("bundle exec rspec ".expand('%'))
+  endif
+endfunction
