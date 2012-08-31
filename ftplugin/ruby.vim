@@ -1,8 +1,8 @@
 " Vim filetype plugin
 " Maintainer: Steve Occhipinti
 
-map <leader>t :w:call RunnermuxRubyTest(expand('%'))
-map <leader>T :w:call RunnermuxRubyTest(expand('%').":".line('.'))
+map <leader>t :w:call RunnermuxRubyTest(expand('%:p'))
+map <leader>T :w:call RunnermuxRubyTest(expand('%:p').":".line('.'))
 
 " Dont use spin for view specs
 au! BufEnter * call RunnermuxCheckForSpin()
