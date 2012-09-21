@@ -3,10 +3,22 @@
 SESSION_NAME="runnermux"
 [ $# -eq 1 ] && SESSION_NAME="$1"
 
+# Attempt to attach to an existing session
 tmux -2 attach -t $SESSION_NAME 2> /dev/null
+
+# If there was no existing session, create a new one
 if [ $? != 0 ]; then
   tmux -2 new -d -s $SESSION_NAME
+
+  # Runner window
   tmux rename-window -t $SESSION_NAME:0 "runner"
+  tmux set-option -t $SESSION_NAME mode-mouse on
+  tmux set-option -t $SESSION_NAME history-limit 1000
+
+  # Spin window
   tmux new-window -t $SESSION_NAME:0 -a -n "spin" "bundle exec spin serve"
+  tmux set-option -t $SESSION_NAME mode-mouse on
+  tmux set-option -t $SESSION_NAME history-limit 1000
+
   tmux attach -t $SESSION_NAME
 fi
