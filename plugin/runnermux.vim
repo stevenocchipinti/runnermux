@@ -23,7 +23,8 @@ function! Runnermux(text, ...)
   endif
   call system("tmux select-window -t runnermux:" . g:runnermux_window)
   let g:runnermux_command = a:text
-  call Send_to_Tmux(g:runnermux_command)
+  let l:dir = substitute(expand("%:p"), "\\(features\\|spec\\).*", "", "")
+  call Send_to_Tmux("cd " . l:dir . " && " . g:runnermux_command)
   redraw
   echo
 endfunction
