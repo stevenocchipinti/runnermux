@@ -23,8 +23,8 @@ function! Runnermux(text, ...)
   endif
   call system("tmux select-window -t runnermux:" . g:runnermux_window)
   let g:runnermux_command = a:text
-  let l:dir = substitute(expand("%:p"), "\\(features\\|spec\\).*", "", "")
-  call Send_to_Tmux("cd " . l:dir . " && " . g:runnermux_command)
+  let g:dir = substitute(expand("%:p"), "\\(features\\|spec\\).*", "", "")
+  call Send_to_Tmux("cd " . g:dir . " && " . g:runnermux_command)
   redraw
   echo
 endfunction
@@ -33,7 +33,8 @@ command! -nargs=1 RunnermuxSend call Runnermux('<args>')
 
 " Send the last command to a running Tmux session
 function! RunnermuxLastCommand()
-  call Runnermux(g:runnermux_command, g:runnermux_window)
+  call system("tmux select-window -t runnermux:" . g:runnermux_window)
+  call Send_to_Tmux("cd " . g:dir . " && " . g:runnermux_command)
 endfunction
 command! RunnermuxSendLastCommand call RunnermuxLastCommand()
 map <leader>. :w:call RunnermuxLastCommand()
