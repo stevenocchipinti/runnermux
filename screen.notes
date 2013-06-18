@@ -1,0 +1,28 @@
+#!/bin/bash
+
+################################################################################
+
+# REATTACH or CREATE a session called "bla"
+screen -xR bla
+
+# Send "date" to the session called "bla"
+screen -S bla -X stuff date
+
+################################################################################
+
+# List running screen sessions
+screen -list
+
+# Start a screen session named "bla"
+screen -S bla
+
+# Attach to a dettached screen session named "bla"
+screen -r bla
+
+# Attach to an already attached screen session named "bla"
+screen -x bla
+
+################################################################################
+
+# More options that may be useful
+-A  # Resize all windows to fit the current terminal size
